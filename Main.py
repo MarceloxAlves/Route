@@ -8,12 +8,26 @@ def main():
     mostrar_mapa()
 
 def montar_mapa():
+    plataforma = False
+    tamanho = 0
+    cota = 0
     for i in range(0, len(mapa)):
         if is_borda(i):
             mapa[i] = "x"
+            plataforma = False
         else:
-            mapa[i] = tipo()
-            caminho_valido(i)
+           if not plataforma:
+                mapa[i] = tipo()
+                if(mapa[i]) == 1 and cota < 2:
+                    plataforma = True
+                    tamanho = bloco()
+                    cota += 1
+           else:
+               if tamanho > 0:
+                   mapa[i] = 1
+                   tamanho -= 1
+        if (i + 1) % x == 0:
+            cota = 0
 
 def mostrar_mapa():
     for i in range(0, len(mapa)):
@@ -33,12 +47,7 @@ def is_borda(index):
     return False
 
 def tipo():
-    return random.randint(1, 5)
-
-def caminho_valido(index):
-    if index < prox_num(index-x):
-        mapa[index] = 0
-    return mapa[index]
+    return random.randint(0, 5)
 
 #seleciona o tamanho da plataforma
 def bloco():
